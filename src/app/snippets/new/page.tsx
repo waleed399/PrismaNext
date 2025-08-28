@@ -1,4 +1,22 @@
+import db from '@/db'
+import { redirect } from 'next/navigation'
+
 export default function SnippetCreatePage() {
+
+  async function createSnippet(formData: FormData) {
+    'use server'; // This is a server action
+    const title = formData.get('title') as string;
+    const code = formData.get('code') as string;
+    const snippet = await db.snippet.create({
+      data: {
+        title,
+        code,
+      },
+    })
+    console.log(snippet)
+    redirect('/')
+  }
+
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
@@ -7,7 +25,7 @@ export default function SnippetCreatePage() {
             Create New Snippet
           </h2>
         </div>
-        <form className="mt-8 space-y-6">
+        <form className="mt-8 space-y-6" action={createSnippet}>
           <div className="space-y-4">
             <div>
               <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-2">
@@ -49,3 +67,4 @@ export default function SnippetCreatePage() {
     </div>
   );
 }
+
