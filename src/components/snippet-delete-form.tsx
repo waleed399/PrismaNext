@@ -89,3 +89,4 @@ export default function SnippetDeleteForm({ snippet }: SnippetDeleteFormProps) {
         </div>
     )
 }
+
